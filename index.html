@@ -1,0 +1,2307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>个人作品集 Portfolio</title>
+  <style>
+    :root {
+      --bg: #f4f8fa;
+      --bg-soft: #eef5f7;
+      --text: #101533;
+      --muted: #687385;
+      --line: rgba(35, 70, 95, 0.14);
+      --card: rgba(255, 255, 255, 0.68);
+      --card-strong: rgba(255, 255, 255, 0.86);
+      --cyan: #48c7dd;
+      --cyan-dark: #1a8fa3;
+      --green: #c8f542;
+      --yellow: #f5ed94;
+      --shadow: 0 24px 70px rgba(38, 66, 90, 0.13);
+      --radius: 28px;
+      --radius-sm: 18px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, "HarmonyOS Sans SC", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 20% 14%, rgba(238, 240, 137, 0.78), transparent 26%),
+        radial-gradient(circle at 42% 19%, rgba(157, 249, 181, 0.56), transparent 28%),
+        radial-gradient(circle at 84% 8%, rgba(139, 209, 238, 0.36), transparent 30%),
+        linear-gradient(135deg, #f9fbfb 0%, #eef6f8 46%, #f7fbfa 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(16, 21, 51, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(16, 21, 51, 0.025) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.25), transparent 80%);
+      z-index: -5;
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(72, 199, 221, 0.18), transparent 65%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      opacity: 0.8;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .glass {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    .nav {
+      position: sticky;
+      top: 18px;
+      z-index: 20;
+      margin-top: 18px;
+      padding: 13px 16px 13px 22px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background:
+        linear-gradient(135deg, rgba(200, 245, 66, 1), rgba(72, 199, 221, 1));
+      box-shadow: 0 14px 30px rgba(72, 199, 221, 0.22);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .logo-mark::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 8px;
+      background: rgba(16, 21, 51, 0.9);
+      top: 13px;
+      left: 6px;
+      border-radius: 999px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      color: rgba(16, 21, 51, 0.72);
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .hero {
+      min-height: 760px;
+      padding: 118px 0 80px;
+      position: relative;
+    }
+
+    .top-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .years {
+      line-height: 1.25;
+    }
+
+    .hero-type {
+      text-align: right;
+    }
+
+    .hero-main {
+      margin-top: 110px;
+      position: relative;
+      max-width: 920px;
+    }
+
+    .hero-title {
+      font-size: clamp(76px, 13vw, 168px);
+      line-height: 0.82;
+      letter-spacing: -0.09em;
+      font-weight: 950;
+      color: #12143a;
+      position: relative;
+      display: inline-block;
+      text-shadow: 0 26px 40px rgba(16, 21, 51, 0.08);
+    }
+
+    .hero-title::after {
+      content: "";
+      position: absolute;
+      left: 38%;
+      top: 49%;
+      width: 36%;
+      height: 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(200, 245, 66, 1), rgba(72, 199, 221, 0.88));
+      box-shadow: 0 12px 28px rgba(200, 245, 66, 0.32);
+      mix-blend-mode: multiply;
+    }
+
+    .hero-title-reflection {
+      position: absolute;
+      left: 4px;
+      top: 95px;
+      font-size: clamp(76px, 13vw, 168px);
+      line-height: 0.82;
+      letter-spacing: -0.09em;
+      font-weight: 950;
+      color: rgba(18, 20, 58, 0.045);
+      transform: scaleY(-1);
+      filter: blur(1px);
+      pointer-events: none;
+    }
+
+    .hero-subtitle {
+      margin-top: 18px;
+      font-size: clamp(26px, 4vw, 48px);
+      font-weight: 900;
+      letter-spacing: -0.06em;
+    }
+
+    .hero-desc {
+      margin-top: 20px;
+      max-width: 560px;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 17px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 36px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-weight: 800;
+      font-size: 14px;
+      transition: 0.25s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #111633;
+      color: #fff;
+      box-shadow: 0 18px 40px rgba(16, 21, 51, 0.18);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 24px 54px rgba(16, 21, 51, 0.24);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.66);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      transform: translateY(-3px);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero-card {
+      position: absolute;
+      right: 0;
+      bottom: 94px;
+      width: 300px;
+      padding: 24px;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: -40px -40px auto auto;
+      width: 160px;
+      height: 160px;
+      border: 24px solid rgba(72, 199, 221, 0.2);
+      border-radius: 50%;
+    }
+
+    .hero-card .tag {
+      display: inline-flex;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(72, 199, 221, 0.13);
+      color: var(--cyan-dark);
+      font-weight: 900;
+      font-size: 12px;
+      margin-bottom: 22px;
+    }
+
+    .hero-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 22px;
+      color: var(--text);
+      letter-spacing: -0.04em;
+    }
+
+    .tube {
+      position: absolute;
+      right: -110px;
+      top: 80px;
+      width: 340px;
+      height: 190px;
+      border: 18px solid rgba(90, 183, 214, 0.22);
+      border-radius: 120px;
+      transform: rotate(38deg);
+      box-shadow:
+        inset 0 0 22px rgba(255,255,255,0.96),
+        0 20px 60px rgba(72, 199, 221, 0.14);
+      opacity: 0.8;
+    }
+
+    .tube::after {
+      content: "";
+      position: absolute;
+      inset: 17px;
+      border: 2px solid rgba(255,255,255,0.7);
+      border-radius: 100px;
+    }
+
+    section {
+      padding: 78px 0;
+      position: relative;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+      margin-bottom: 34px;
+    }
+
+    .section-kicker {
+      color: var(--cyan-dark);
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(36px, 6vw, 66px);
+      line-height: 0.94;
+      letter-spacing: -0.075em;
+      font-weight: 950;
+    }
+
+    .section-desc {
+      max-width: 420px;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 15px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .category-card {
+      min-height: 210px;
+      border-radius: var(--radius);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: 0.28s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(72, 199, 221, 0.42);
+      box-shadow: 0 30px 80px rgba(38, 66, 90, 0.18);
+    }
+
+    .category-card::after {
+      content: "";
+      position: absolute;
+      right: -48px;
+      bottom: -48px;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 245, 66, 0.3), transparent 68%);
+    }
+
+    .card-index {
+      display: inline-flex;
+      width: 44px;
+      height: 30px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: rgba(16, 21, 51, 0.06);
+      color: rgba(16, 21, 51, 0.68);
+      font-size: 12px;
+      font-weight: 950;
+      margin-bottom: 38px;
+    }
+
+    .category-card h3 {
+      font-size: 26px;
+      letter-spacing: -0.05em;
+      margin-bottom: 12px;
+    }
+
+    .category-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      max-width: 260px;
+    }
+
+    .arrow {
+      position: absolute;
+      right: 26px;
+      top: 26px;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      transition: 0.25s ease;
+      z-index: 2;
+    }
+
+    .category-card:hover .arrow {
+      transform: translateX(4px);
+      background: #111633;
+      color: #fff;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 18px;
+    }
+
+    .work-card {
+      min-height: 430px;
+      border-radius: 34px;
+      overflow: hidden;
+      position: relative;
+      transition: 0.28s ease;
+    }
+
+    .work-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .work-card.large {
+      grid-row: span 2;
+      min-height: 878px;
+    }
+
+    .work-cover {
+      height: 62%;
+      min-height: 270px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(200, 245, 66, 0.65), transparent 28%),
+        radial-gradient(circle at 68% 18%, rgba(72, 199, 221, 0.42), transparent 26%),
+        linear-gradient(135deg, rgba(255,255,255,0.74), rgba(225, 241, 246, 0.78));
+    }
+
+    .work-card.large .work-cover {
+      min-height: 590px;
+    }
+
+    .mock-window {
+      position: absolute;
+      width: 74%;
+      height: 66%;
+      left: 13%;
+      top: 18%;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.76);
+      border: 1px solid rgba(255,255,255,0.86);
+      box-shadow: 0 30px 70px rgba(16, 21, 51, 0.14);
+      overflow: hidden;
+    }
+
+    .mock-window::before {
+      content: "";
+      position: absolute;
+      left: 22px;
+      top: 18px;
+      width: 60px;
+      height: 10px;
+      border-radius: 99px;
+      background: #111633;
+      box-shadow: 78px 0 0 rgba(72,199,221,0.5), 154px 0 0 rgba(200,245,66,0.68);
+    }
+
+    .mock-lines {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 26px;
+      height: 55%;
+      display: grid;
+      gap: 10px;
+    }
+
+    .mock-lines span {
+      border-radius: 999px;
+      background: rgba(16, 21, 51, 0.09);
+    }
+
+    .mock-lines span:nth-child(1) { width: 78%; }
+    .mock-lines span:nth-child(2) { width: 56%; }
+    .mock-lines span:nth-child(3) { width: 88%; }
+    .mock-lines span:nth-child(4) { width: 43%; }
+
+    .work-info {
+      padding: 26px 28px 30px;
+      background: rgba(255,255,255,0.58);
+    }
+
+    .work-info h3 {
+      font-size: 27px;
+      letter-spacing: -0.055em;
+      margin-bottom: 12px;
+    }
+
+    .work-info p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+      margin-top: 14px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tags span {
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(72, 199, 221, 0.11);
+      color: #207d90;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .portrait-card {
+      border-radius: 36px;
+      min-height: 500px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 32px;
+    }
+
+    .portrait-card::before {
+      content: "";
+      position: absolute;
+      inset: 26px 26px 148px;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 50% 22%, rgba(200,245,66,0.7), transparent 22%),
+        linear-gradient(180deg, rgba(72,199,221,0.22), rgba(255,255,255,0.16));
+      border: 1px solid rgba(255,255,255,0.8);
+      box-shadow: inset 0 0 50px rgba(255,255,255,0.9);
+    }
+
+    .portrait-card::after {
+      content: "Upload\A Image";
+      white-space: pre;
+      position: absolute;
+      left: 42px;
+      top: 42px;
+      font-size: 42px;
+      line-height: 0.86;
+      letter-spacing: -0.08em;
+      font-weight: 950;
+      color: rgba(16, 21, 51, 0.08);
+    }
+
+    .portrait-photo {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 320px;
+      min-height: 300px;
+      border-radius: 26px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      color: rgba(16, 21, 51, 0.46);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .portrait-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .portrait-card .name {
+      position: relative;
+      z-index: 1;
+    }
+
+    .portrait-card .name strong {
+      display: block;
+      font-size: 32px;
+      letter-spacing: -0.06em;
+      margin-bottom: 10px;
+    }
+
+    .portrait-card .name span {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .about-content {
+      border-radius: 36px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-content::after {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -90px;
+      width: 230px;
+      height: 230px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(72,199,221,0.22), transparent 65%);
+    }
+
+    .about-content h3 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1;
+      letter-spacing: -0.075em;
+      margin-bottom: 26px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-content p {
+      color: var(--muted);
+      line-height: 2;
+      font-size: 16px;
+      max-width: 650px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 44px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat {
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.64);
+      border: 1px solid rgba(255,255,255,0.82);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 38px;
+      letter-spacing: -0.06em;
+      margin-bottom: 8px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .skills-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .skill-card {
+      border-radius: 30px;
+      padding: 30px;
+    }
+
+    .skill-card h3 {
+      font-size: 26px;
+      letter-spacing: -0.055em;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .skill-card h3 small {
+      color: var(--cyan-dark);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+    }
+
+    .skill-row {
+      margin-top: 18px;
+    }
+
+    .skill-row .skill-name {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 9px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .skill-row .skill-name span:last-child {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .bar {
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(16, 21, 51, 0.08);
+      overflow: hidden;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      width: var(--w);
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+    }
+
+    .experience-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .experience-card {
+      border-radius: 30px;
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 26px;
+      align-items: start;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .experience-card::after {
+      content: "";
+      position: absolute;
+      right: -60px;
+      bottom: -60px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 245, 66, 0.24), transparent 68%);
+    }
+
+    .experience-time {
+      color: var(--cyan-dark);
+      font-size: 13px;
+      font-weight: 950;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 1;
+    }
+
+    .experience-detail {
+      position: relative;
+      z-index: 1;
+    }
+
+    .experience-detail h3 {
+      font-size: 26px;
+      letter-spacing: -0.05em;
+      margin-bottom: 10px;
+    }
+
+    .experience-detail p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .contact-section {
+      padding-bottom: 40px;
+    }
+
+    .contact-box {
+      border-radius: 42px;
+      padding: 52px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-box::before {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 360px;
+      height: 360px;
+      border: 30px solid rgba(72, 199, 221, 0.13);
+      border-radius: 50%;
+    }
+
+    .contact-title {
+      font-size: clamp(42px, 7vw, 82px);
+      line-height: 0.92;
+      letter-spacing: -0.085em;
+      font-weight: 950;
+      max-width: 700px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-title em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1.2px rgba(16, 21, 51, 0.45);
+    }
+
+    .contact-desc {
+      margin-top: 22px;
+      color: var(--muted);
+      line-height: 1.85;
+      max-width: 560px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 42px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-card {
+      padding: 26px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.64);
+      border: 1px solid rgba(255,255,255,0.82);
+      transition: 0.25s ease;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-6px);
+      background: rgba(255,255,255,0.88);
+    }
+
+    .contact-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: #111633;
+      color: #fff;
+      margin-bottom: 22px;
+      font-weight: 950;
+    }
+
+    .contact-card h3 {
+      font-size: 22px;
+      letter-spacing: -0.04em;
+      margin-bottom: 10px;
+    }
+
+    .contact-card p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      word-break: break-all;
+    }
+
+    footer {
+      padding: 34px 0 56px;
+      color: rgba(16, 21, 51, 0.52);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      border-top: 1px solid rgba(16, 21, 51, 0.08);
+      margin-top: 30px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+
+    .reveal.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 90px;
+      }
+
+      .hero-main {
+        margin-top: 72px;
+      }
+
+      .hero-card {
+        position: relative;
+        width: 100%;
+        right: auto;
+        bottom: auto;
+        margin-top: 44px;
+      }
+
+      .tube {
+        right: -220px;
+      }
+
+      .category-grid,
+      .work-grid,
+      .about-wrap,
+      .skills-layout,
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .experience-card {
+        grid-template-columns: 1fr;
+      }
+
+      .work-card.large {
+        min-height: 430px;
+      }
+
+      .work-card.large .work-cover {
+        min-height: 270px;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-desc {
+        margin-top: 18px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .hero {
+        padding-top: 70px;
+      }
+
+      .hero-title::after {
+        height: 11px;
+      }
+
+      .hero-title-reflection {
+        top: 56px;
+      }
+
+      .top-meta {
+        font-size: 10px;
+      }
+
+      section {
+        padding: 54px 0;
+      }
+
+      .category-card,
+      .skill-card,
+      .experience-card,
+      .about-content,
+      .contact-box {
+        padding: 24px;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      footer {
+        flex-direction: column;
+      }
+    }
+
+    .edit-toolbar {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9999;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      max-width: min(520px, calc(100vw - 36px));
+      padding: 12px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      box-shadow: 0 18px 50px rgba(16, 21, 51, 0.16);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .edit-toolbar button {
+      border: 0;
+      cursor: pointer;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      color: #101533;
+      background: rgba(238, 245, 247, 0.95);
+      transition: 0.2s ease;
+      font-family: inherit;
+    }
+
+    .edit-toolbar button:hover {
+      transform: translateY(-1px);
+      background: rgba(200, 245, 66, 0.88);
+    }
+
+    .edit-toolbar select,
+    .edit-toolbar input[type="color"] {
+      height: 38px;
+      border: 1px solid rgba(16, 21, 51, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.76);
+      color: var(--text);
+      font-family: inherit;
+      font-weight: 800;
+      outline: none;
+    }
+
+    .edit-toolbar select {
+      max-width: 132px;
+      padding: 0 10px;
+    }
+
+    .edit-toolbar input[type="color"] {
+      width: 46px;
+      padding: 5px;
+      cursor: pointer;
+    }
+
+    .edit-toolbar .primary {
+      background: linear-gradient(135deg, rgba(200, 245, 66, 1), rgba(72, 199, 221, 0.9));
+    }
+
+    .edit-hint {
+      position: fixed;
+      left: 50%;
+      bottom: 92px;
+      transform: translateX(-50%);
+      z-index: 9999;
+      max-width: min(560px, calc(100vw - 36px));
+      padding: 12px 16px;
+      border-radius: 999px;
+      background: rgba(16, 21, 51, 0.88);
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      text-align: center;
+    }
+
+    .edit-hint.show {
+      opacity: 1;
+    }
+
+    body.edit-mode [contenteditable="true"] {
+      outline: 2px dashed rgba(72, 199, 221, 0.72);
+      outline-offset: 4px;
+      border-radius: 8px;
+      cursor: text;
+    }
+
+    body.edit-mode img[data-editable-image="true"] {
+      outline: 3px dashed rgba(200, 245, 66, 0.95);
+      outline-offset: 6px;
+      cursor: pointer;
+      filter: saturate(1.08);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="edit-toolbar" aria-label="网页编辑工具">
+    <button class="primary" type="button" id="editToggle">开启编辑</button>
+    <button type="button" id="fontSmaller">字号 -</button>
+    <button type="button" id="fontLarger">字号 +</button>
+    <button type="button" id="fontReset">恢复字号</button>
+    <select id="fontFamilyPicker" aria-label="选择字体">
+      <option value="">默认字体</option>
+      <option value='"Microsoft YaHei", "PingFang SC", sans-serif'>微软雅黑</option>
+      <option value='SimSun, serif'>宋体</option>
+      <option value='KaiTi, serif'>楷体</option>
+      <option value='Arial, sans-serif'>Arial</option>
+      <option value='Georgia, serif'>Georgia</option>
+    </select>
+    <input id="textColorPicker" type="color" value="#101533" aria-label="选择文字颜色" />
+    <button type="button" id="styleReset">恢复字体颜色</button>
+    <button type="button" id="letterTighter">字距 -</button>
+    <button type="button" id="letterLooser">字距 +</button>
+    <button type="button" id="lineTighter">行距 -</button>
+    <button type="button" id="lineLooser">行距 +</button>
+    <button type="button" id="spacingReset">恢复间距</button>
+    <button type="button" id="saveEdits">保存修改</button>
+    <button type="button" id="clearEdits">清除本地修改</button>
+    <button type="button" id="deleteSection" style="background:#ffeaea;color:#c53030;">🗑 删除板块</button>
+  </div>
+  <div class="edit-hint" id="editHint">已开启编辑：直接点击文字修改；点击图片可上传替换；选中文字后可调整字号、字体、颜色、字距和行距；点击"删除板块"后点击任意板块即可删除。</div>
+  <input id="imagePicker" type="file" accept="image/*" hidden />
+
+  <main class="page">
+    <nav class="nav glass">
+      <a class="logo" href="#home" aria-label="返回首页">
+        <span class="logo-mark"></span>
+        <span>XIA GUO JUAN</span>
+      </a>
+      <div class="nav-links">
+        <a href="#home">首页</a>
+        <a href="#about">关于我</a>
+        <a href="#skills">擅长技能</a>
+        <a href="#experience">工作经历</a>
+        <a href="#contact">联系我</a>
+        <a href="#categories">作品分类</a>
+      </div>
+    </nav>
+
+    <header class="hero" id="home">
+      <div class="tube"></div>
+
+      <div class="top-meta reveal">
+        <div class="years">2017<br />2026</div>
+        <div class="hero-type">PORTFOLIO / UI UX DESIGN</div>
+      </div>
+
+      <div class="hero-main reveal">
+        <div class="hero-title-reflection">Portfolio</div>
+        <h1 class="hero-title">Portfolio</h1>
+        <h2 class="hero-subtitle">个人作品集</h2>
+        <p class="hero-desc">
+          专注于 UI/UX 设计、视觉创意与数字产品体验，用清晰的信息层级和具有记忆点的视觉语言，让作品更专业、更易读、更有设计感。
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#categories">查看作品 →</a>
+          <a class="btn btn-ghost" href="#contact">联系我</a>
+        </div>
+      </div>
+
+      <aside class="hero-card glass reveal">
+        <span class="tag">DESIGN COLLECTION</span>
+        <strong>设计作品集</strong>
+        <p>
+          用浅色渐变、玻璃拟态卡片、超大标题和未来感装饰，呈现一个干净高级的个人作品展示空间。
+        </p>
+      </aside>
+    </header>
+
+    <section id="about">
+      <div class="about-wrap">
+        <aside class="portrait-card glass reveal">
+          <div class="portrait-photo">
+            <img src="assets/portrait.png" alt="个人照片" />
+          </div>
+          <div class="name">
+            <strong>关于我</strong>
+            <span>夏国娟&nbsp;&nbsp;1994&nbsp;&nbsp;08<br />团队意识强 / 有责任心 / 效率高，为人正直诚实 / 积极主动 / 沟通能力强。</span>
+          </div>
+        </aside>
+
+        <div class="about-content glass reveal">
+          <div class="section-kicker">About Me</div>
+          <h3>关于我</h3>
+          <p>
+            <strong>四川大学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;自考本科</strong>
+          </p>
+          <p>
+            具备良好美术设计能力 / 具备 VI 系统独立设计能力，拥有丰富的场内氛围布置效果图及落地实施工作经验。
+          </p>
+          <p>
+            熟练运用AI工具辅助及ai 3D模型建构。
+          </p>
+          <p>
+            <strong>熟知印刷材质及工艺知识价格控制。</strong>
+          </p>
+
+          <div class="stats">
+            <div class="stat">
+              <strong>20+</strong>
+              <span>完成项目</span>
+            </div>
+            <div class="stat">
+              <strong>6</strong>
+              <span>设计方向</span>
+            </div>
+            <div class="stat">
+              <strong>100%</strong>
+              <span>持续学习</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-heading reveal">
+        <div>
+          <div class="section-kicker">Skills</div>
+          <h2 class="section-title">擅长技能</h2>
+        </div>
+        <p class="section-desc">
+          以 UI/UX 设计为核心，覆盖视觉创意、设计工具、网页实现和基础交互能力。
+        </p>
+      </div>
+
+      <div class="skills-layout">
+        <article class="skill-card glass reveal">
+          <h3>设计能力 <small>DESIGN</small></h3>
+          <div class="skill-row">
+            <div class="skill-name"><span>CDR</span><span>92%</span></div>
+            <div class="bar"><i style="--w:92%"></i></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name"><span>PS</span><span>88%</span></div>
+            <div class="bar"><i style="--w:88%"></i></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name"><span>AI</span><span>82%</span></div>
+            <div class="bar"><i style="--w:82%"></i></div>
+          </div>
+        </article>
+
+        <article class="skill-card glass reveal">
+          <h3>设计能力 <small>DESIGN</small></h3>
+          <div class="skill-row">
+            <div class="skill-name"><span>CDR</span><span>92%</span></div>
+            <div class="bar"><i style="--w:92%"></i></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name"><span>PS</span><span>88%</span></div>
+            <div class="bar"><i style="--w:88%"></i></div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-name"><span>AI</span><span>82%</span></div>
+            <div class="bar"><i style="--w:82%"></i></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="section-heading reveal">
+        <div>
+          <div class="section-kicker">Experience</div>
+          <h2 class="section-title">工作经历</h2>
+        </div>
+        <p class="section-desc">
+          这里可以填写你的实习、项目协作或正式工作经历，突出岗位职责、参与项目和最终成果。
+        </p>
+      </div>
+
+      <div class="experience-list">
+        <article class="experience-card glass reveal">
+          <div class="experience-time">2025/5 - 至今</div>
+          <div class="experience-detail">
+            <h3>新风天域·顾连医疗&nbsp;&nbsp;&nbsp;上市集团分公司1000-9999人</h3>
+            <p>
+              负责产品界面设计、交互原型、视觉规范整理与页面落地协作，参与从需求理解到设计交付的完整流程。
+            </p>
+          </div>
+        </article>
+
+        <article class="experience-card glass reveal">
+          <div class="experience-time">2023/7 - 2025/4</div>
+          <div class="experience-detail">
+            <h3>视觉设计 / 项目实践</h3>
+            <p>
+              参与品牌视觉、海报设计、网页界面和作品集项目制作，积累多类型视觉表达与版式设计经验。
+            </p>
+          </div>
+        </article>
+
+        <article class="experience-card glass reveal">
+          <div class="experience-time">2021/11 - 2023/6</div>
+          <div class="experience-detail">
+            <h3>新媒体视觉设计</h3>
+            <p>
+              负责活动海报、内容封面、社交媒体配图和视觉物料设计，提升信息呈现的清晰度与传播吸引力。
+            </p>
+          </div>
+        </article>
+
+        <article class="experience-card glass reveal">
+          <div class="experience-time">2017/11 - 2021/9</div>
+          <div class="experience-detail">
+            <h3>设计学习与创意探索</h3>
+            <p>
+              系统学习界面设计、版式设计、色彩搭配和基础前端知识，并完成多个个人作品集与练习项目。
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="contact-box glass reveal">
+        <h2 class="contact-title">Let's Create <em>Together</em></h2>
+        <p class="contact-desc">
+          如果你对我的作品感兴趣，或希望一起推进设计项目，可以通过以下三种方式联系我。
+        </p>
+
+        <div class="contact-grid">
+          <article class="contact-card">
+            <div class="contact-icon">@</div>
+            <h3>Email</h3>
+            <p>864958954@qq.com</p>
+          </article>
+
+          <article class="contact-card">
+            <div class="contact-icon">微</div>
+            <h3>WeChat</h3>
+            <p>147-8180-6776</p>
+          </article>
+
+          <article class="contact-card">
+            <div class="contact-icon">站</div>
+            <h3>作品平台</h3>
+            <p>Behance / 站酷 / 小红书</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="categories">
+      <div class="section-heading reveal">
+        <div>
+          <div class="section-kicker">Works Category</div>
+          <h2 class="section-title">作品分类展示</h2>
+        </div>
+        <p class="section-desc">
+          根据不同项目类型进行分类展示，方便访客快速了解你的设计能力范围和作品方向。
+        </p>
+      </div>
+
+      <div class="category-grid">
+        <article class="category-card glass reveal">
+          <a class="arrow" href="1.html" aria-label="查看 UI/UX Design 图片作品">→</a>
+          <span class="card-index">01</span>
+          <h3>UI/UX Design</h3>
+          <p>移动端界面、网页界面、产品原型、交互流程与用户体验优化。</p>
+        </article>
+
+        <article class="category-card glass reveal">
+          <a class="arrow" href="gallery.html?category=web" aria-label="查看 Web Design 图片作品">→</a>
+          <span class="card-index">02</span>
+          <h3>Web Design</h3>
+          <p>官网、落地页、个人网站、响应式网页和数字产品展示页面。</p>
+        </article>
+
+        <article class="category-card glass reveal">
+          <a class="arrow" href="gallery.html?category=brand" aria-label="查看 Brand Design 图片作品">→</a>
+          <span class="card-index">03</span>
+          <h3>Brand Design</h3>
+          <p>品牌视觉、Logo、VI 延展、色彩系统与基础视觉规范设计。</p>
+        </article>
+
+        <article class="category-card glass reveal">
+          <a class="arrow" href="gallery.html?category=poster" aria-label="查看 Poster Design 图片作品">→</a>
+          <span class="card-index">04</span>
+          <h3>Poster Design</h3>
+          <p>活动海报、运营视觉、小红书封面、节气科普与内容视觉包装。</p>
+        </article>
+
+        <article class="category-card glass reveal">
+          <a class="arrow" href="gallery.html?category=data" aria-label="查看 Data Visualization 图片作品">→</a>
+          <span class="card-index">05</span>
+          <h3>Data Visualization</h3>
+          <p>数据看板、可视化大屏、图表界面、业务监测与分析系统设计。</p>
+        </article>
+
+        <article class="category-card glass reveal">
+          <a class="arrow" href="gallery.html?category=creative" aria-label="查看 Creative Practice 图片作品">→</a>
+          <span class="card-index">06</span>
+          <h3>Creative Practice</h3>
+          <p>创意实验、3D 视觉、动效探索、风格化版式与视觉概念设计。</p>
+        </article>
+      </div>
+    </section>
+    <footer>
+      <span>© 2026 YU Portfolio. All rights reserved.</span>
+      <span>Designed with clarity, light and creative energy.</span>
+    </footer>
+  </main>
+
+  <script>
+    const glow = document.getElementById("cursorGlow");
+
+    window.addEventListener("mousemove", (e) => {
+      glow.style.left = e.clientX + "px";
+      glow.style.top = e.clientY + "px";
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      });
+    }, {
+      threshold: 0.12
+    });
+
+    document.querySelectorAll(".reveal").forEach((el, index) => {
+      el.style.transitionDelay = `${Math.min(index * 0.035, 0.28)}s`;
+      observer.observe(el);
+    });
+
+    const editToggle = document.getElementById("editToggle");
+    const fontSmaller = document.getElementById("fontSmaller");
+    const fontLarger = document.getElementById("fontLarger");
+    const fontReset = document.getElementById("fontReset");
+    const fontFamilyPicker = document.getElementById("fontFamilyPicker");
+    const textColorPicker = document.getElementById("textColorPicker");
+    const styleReset = document.getElementById("styleReset");
+    const letterTighter = document.getElementById("letterTighter");
+    const letterLooser = document.getElementById("letterLooser");
+    const lineTighter = document.getElementById("lineTighter");
+    const lineLooser = document.getElementById("lineLooser");
+    const spacingReset = document.getElementById("spacingReset");
+    const saveEdits = document.getElementById("saveEdits");
+    const clearEdits = document.getElementById("clearEdits");
+    const editHint = document.getElementById("editHint");
+    const imagePicker = document.getElementById("imagePicker");
+    const textStoreKey = "portfolio-inline-text-v1";
+    const imageStoreKey = "portfolio-inline-images-v1";
+    const fontStoreKey = "portfolio-inline-fonts-v1";
+    const spacingStoreKey = "portfolio-inline-spacing-v1";
+    const styleStoreKey = "portfolio-inline-styles-v1";
+    const editableTextSelector = [
+      "h1",
+      "h2",
+      "h3",
+      "p",
+      ".years",
+      ".hero-type",
+      ".name strong",
+      ".name span",
+      ".tag",
+      ".skill-name span",
+      ".tags span",
+      ".contact-icon",
+      "footer span",
+      ".nav-links a",
+      ".logo > span:last-child"
+    ].join(",");
+
+    let editMode = false;
+    let currentImage = null;
+    let activeTextItem = null;
+    let savedTextRange = null;
+    const textItems = Array.from(document.querySelectorAll(editableTextSelector));
+    const imageItems = Array.from(document.querySelectorAll("img"));
+
+    function readSaved(key) {
+      try {
+        return JSON.parse(localStorage.getItem(key) || "{}");
+      } catch (error) {
+        return {};
+      }
+    }
+
+    function showEditHint(message) {
+      editHint.textContent = message;
+      editHint.classList.add("show");
+      window.clearTimeout(showEditHint.timer);
+      showEditHint.timer = window.setTimeout(() => {
+        editHint.classList.remove("show");
+      }, 2400);
+    }
+
+    function applySavedEdits() {
+      const savedText = readSaved(textStoreKey);
+      const savedImages = readSaved(imageStoreKey);
+      const savedFonts = readSaved(fontStoreKey);
+      const savedSpacing = readSaved(spacingStoreKey);
+      const savedStyles = readSaved(styleStoreKey);
+
+      textItems.forEach((el, index) => {
+        el.dataset.editKey = `text-${index}`;
+        el.dataset.originalFontSize = window.getComputedStyle(el).fontSize;
+        if (savedText[el.dataset.editKey]) {
+          el.innerHTML = savedText[el.dataset.editKey];
+        }
+        if (savedFonts[el.dataset.editKey]) {
+          el.style.fontSize = savedFonts[el.dataset.editKey];
+        }
+        if (savedSpacing[el.dataset.editKey]) {
+          el.style.letterSpacing = savedSpacing[el.dataset.editKey].letterSpacing || "";
+          el.style.lineHeight = savedSpacing[el.dataset.editKey].lineHeight || "";
+        }
+        if (savedStyles[el.dataset.editKey]) {
+          el.style.fontFamily = savedStyles[el.dataset.editKey].fontFamily || "";
+          el.style.color = savedStyles[el.dataset.editKey].color || "";
+        }
+      });
+
+      imageItems.forEach((img, index) => {
+        img.dataset.editKey = `image-${index}`;
+        img.dataset.editableImage = "true";
+        if (savedImages[img.dataset.editKey]) {
+          img.src = savedImages[img.dataset.editKey];
+        }
+      });
+    }
+
+    function setEditMode(enabled) {
+      editMode = enabled;
+      document.body.classList.toggle("edit-mode", editMode);
+      editToggle.textContent = editMode ? "关闭编辑" : "开启编辑";
+      textItems.forEach((el) => {
+        el.setAttribute("contenteditable", editMode ? "true" : "false");
+        el.setAttribute("spellcheck", "false");
+      });
+
+      showEditHint(editMode ? "已开启编辑：直接点击文字修改；点击图片可上传替换；选中文字后可调整字号、字体、颜色、字距和行距。" : "已关闭编辑。");
+    }
+
+    function storeCurrentEdits() {
+      const savedText = {};
+      textItems.forEach((el) => {
+        savedText[el.dataset.editKey] = el.innerHTML;
+      });
+      localStorage.setItem(textStoreKey, JSON.stringify(savedText));
+      showEditHint("修改已保存到当前浏览器。");
+    }
+
+    function storeCurrentFonts() {
+      const savedFonts = {};
+      textItems.forEach((el) => {
+        if (el.style.fontSize) {
+          savedFonts[el.dataset.editKey] = el.style.fontSize;
+        }
+      });
+      localStorage.setItem(fontStoreKey, JSON.stringify(savedFonts));
+    }
+
+    function storeCurrentSpacing() {
+      const savedSpacing = {};
+      textItems.forEach((el) => {
+        if (el.style.letterSpacing || el.style.lineHeight) {
+          savedSpacing[el.dataset.editKey] = {
+            letterSpacing: el.style.letterSpacing || "",
+            lineHeight: el.style.lineHeight || ""
+          };
+        }
+      });
+      localStorage.setItem(spacingStoreKey, JSON.stringify(savedSpacing));
+    }
+
+    function storeCurrentStyles() {
+      const savedStyles = {};
+      textItems.forEach((el) => {
+        if (el.style.fontFamily || el.style.color) {
+          savedStyles[el.dataset.editKey] = {
+            fontFamily: el.style.fontFamily || "",
+            color: el.style.color || ""
+          };
+        }
+      });
+      localStorage.setItem(styleStoreKey, JSON.stringify(savedStyles));
+    }
+
+    function getActiveTextItem() {
+      if (activeTextItem && textItems.includes(activeTextItem)) {
+        return activeTextItem;
+      }
+      return null;
+    }
+
+    function saveSelectionRange() {
+      const sel = window.getSelection();
+      const container = getActiveTextItem();
+      if (!sel || sel.rangeCount === 0 || sel.isCollapsed || !container) return;
+      const range = sel.getRangeAt(0);
+      if (!container.contains(range.commonAncestorContainer)) return;
+      savedTextRange = range.cloneRange();
+    }
+
+    function restoreSavedSelection() {
+      const container = getActiveTextItem();
+      if (!savedTextRange || !container || !container.contains(savedTextRange.commonAncestorContainer)) return null;
+      const sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(savedTextRange.cloneRange());
+      return sel;
+    }
+
+    function getSelectionWithinActive() {
+      let sel = window.getSelection();
+      const container = getActiveTextItem();
+      if (!container) return null;
+      if (!sel || sel.rangeCount === 0 || sel.isCollapsed) {
+        sel = restoreSavedSelection();
+      }
+      if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return null;
+      const range = sel.getRangeAt(0);
+      if (!container.contains(range.commonAncestorContainer)) return null;
+      return { sel, range, container };
+    }
+
+    function unwrapFsSpan(span) {
+      const parent = span.parentNode;
+      if (!parent) return;
+      while (span.firstChild) {
+        parent.insertBefore(span.firstChild, span);
+      }
+      parent.removeChild(span);
+      parent.normalize();
+    }
+
+    function clearInlineTextStyle(root, styleName, attrName) {
+      root.querySelectorAll("span").forEach((span) => {
+        span.style[styleName] = "";
+        if (attrName) span.removeAttribute(attrName);
+        if (!span.getAttribute("style")) span.removeAttribute("style");
+      });
+    }
+
+    function applyFontSizeToSelection(deltaOrReset) {
+      const info = getSelectionWithinActive();
+      if (!info) return false;
+      const { range, container } = info;
+
+      const baseSize = parseFloat(window.getComputedStyle(container).fontSize);
+      let parentSpan = range.commonAncestorContainer;
+      if (parentSpan.nodeType === Node.TEXT_NODE) parentSpan = parentSpan.parentNode;
+      let referenceSize = baseSize;
+      if (parentSpan && parentSpan.closest) {
+        const closestFs = parentSpan.closest("span[data-fs]");
+        if (closestFs && container.contains(closestFs)) {
+          referenceSize = parseFloat(closestFs.style.fontSize) || baseSize;
+        }
+      }
+
+      const wrapper = document.createElement("span");
+      wrapper.setAttribute("data-fs", "1");
+      try {
+        wrapper.appendChild(range.extractContents());
+      } catch (e) {
+        return false;
+      }
+
+      wrapper.querySelectorAll("span[data-fs]").forEach((inner) => {
+        unwrapFsSpan(inner);
+      });
+
+      if (deltaOrReset === "reset") {
+        range.insertNode(wrapper);
+        unwrapFsSpan(wrapper);
+      } else {
+        const next = Math.max(10, Math.min(180, referenceSize + deltaOrReset));
+        wrapper.style.fontSize = `${next}px`;
+        range.insertNode(wrapper);
+      }
+
+      container.normalize();
+      window.getSelection().removeAllRanges();
+      storeCurrentEdits();
+      return true;
+    }
+
+    function changeFontSize(delta) {
+      if (!editMode) {
+        showEditHint("请先开启编辑，再调整字号。");
+        return;
+      }
+
+      if (applyFontSizeToSelection(delta)) {
+        showEditHint(`已调整选中文字字号（${delta > 0 ? "+" : ""}${delta}px）。`);
+        return;
+      }
+
+      const target = getActiveTextItem();
+      if (!target) {
+        showEditHint("请先点击要调整字号的文字，或选中部分文字。");
+        return;
+      }
+
+      const currentSize = parseFloat(window.getComputedStyle(target).fontSize);
+      const nextSize = Math.max(10, Math.min(180, currentSize + delta));
+      target.style.fontSize = `${nextSize}px`;
+      storeCurrentFonts();
+      showEditHint(`已调整整段字号：${Math.round(nextSize)}px`);
+    }
+
+    function resetFontSize() {
+      if (!editMode) {
+        showEditHint("请先开启编辑，再恢复字号。");
+        return;
+      }
+
+      if (applyFontSizeToSelection("reset")) {
+        showEditHint("已恢复选中文字的默认字号。");
+        return;
+      }
+
+      const target = getActiveTextItem();
+      if (!target) {
+        showEditHint("请先点击要恢复字号的文字，或选中部分文字。");
+        return;
+      }
+
+      target.style.fontSize = "";
+      target.querySelectorAll("span[data-fs]").forEach((s) => unwrapFsSpan(s));
+      storeCurrentFonts();
+      storeCurrentEdits();
+      showEditHint("已恢复这段文字的默认字号。");
+    }
+
+    function applyTextStyleToSelection(styleName, value, attrName) {
+      const info = getSelectionWithinActive();
+      if (!info) return false;
+      const { range, container } = info;
+      const wrapper = document.createElement("span");
+      wrapper.setAttribute(attrName, "1");
+
+      try {
+        wrapper.appendChild(range.extractContents());
+      } catch (e) {
+        return false;
+      }
+
+      wrapper.querySelectorAll(`span[${attrName}]`).forEach((inner) => {
+        unwrapFsSpan(inner);
+      });
+
+      clearInlineTextStyle(wrapper, styleName, attrName);
+
+      if (value) {
+        wrapper.style[styleName] = value;
+        range.insertNode(wrapper);
+      } else {
+        range.insertNode(wrapper);
+        unwrapFsSpan(wrapper);
+      }
+
+      container.normalize();
+      window.getSelection().removeAllRanges();
+      savedTextRange = null;
+      storeCurrentEdits();
+      return true;
+    }
+
+    function changeFontFamily(value) {
+      if (!editMode) {
+        showEditHint("请先开启编辑，再修改字体。");
+        return;
+      }
+
+      if (applyTextStyleToSelection("fontFamily", value, "data-ff")) {
+        showEditHint("已修改选中文字的字体。");
+        return;
+      }
+
+      const target = getActiveTextItem();
+      if (!target) {
+        showEditHint("请先点击要修改字体的文字，或选中部分文字。");
+        return;
+      }
+
+      target.style.fontFamily = value;
+      clearInlineTextStyle(target, "fontFamily", "data-ff");
+      storeCurrentStyles();
+      showEditHint(value ? "已修改整段文字的字体。" : "已恢复整段文字的默认字体。");
+    }
+
+    function changeTextColor(value) {
+      if (!editMode) {
+        showEditHint("请先开启编辑，再修改颜色。");
+        return;
+      }
+
+      if (applyTextStyleToSelection("color", value, "data-color")) {
+        showEditHint("已修改选中文字的颜色。");
+        return;
+      }
+
+      const target = getActiveTextItem();
+      if (!target) {
+        showEditHint("请先点击要修改颜色的文字，或选中部分文字。");
+        return;
+      }
+
+      target.style.color = value;
+      clearInlineTextStyle(target, "color", "data-color");
+      storeCurrentStyles();
+      showEditHint("已修改整段文字的颜色。");
+    }
+
+    function resetTextStyle() {
+      if (!editMode) {
+        showEditHint("请先开启编辑，再恢复字体颜色。");
+        return;
+      }
+
+      const info = getSelectionWithinActive();
+      if (info) {
+        const { range, container } = info;
+        const wrapper = document.createElement("span");
+        try {
+          wrapper.appendChild(range.extractContents());
+        } catch (e) {
+          return;
+        }
+        clearInlineTextStyle(wrapper, "fontFamily", "data-ff");
+        clearInlineTextStyle(wrapper, "color", "data-color");
+        wrapper.querySelectorAll("span[data-ff], span[data-color]").forEach((inner) => {
+          unwrapFsSpan(inner);
+        });
+        range.insertNode(wrapper);
+        unwrapFsSpan(wrapper);
+        container.normalize();
+        window.getSelection().removeAllRanges();
+        savedTextRange = null;
+        storeCurrentEdits();
+        showEditHint("已恢复选中文字的字体和颜色。");
+        return;
+      }
+
+      const target = getActiveTextItem();
+      if (!target) {
+        showEditHint("请先点击要恢复字体颜色的文字，或选中部分文字。");
+        return;
+      }
+
+      target.style.fontFamily = "";
+      target.style.color = "";
+      clearInlineTextStyle(target, "fontFamily", "data-ff");
+      clearInlineTextStyle(target, "color", "data-color");
+      target.querySelectorAll("span[data-ff], span[data-color]").forEach((s) => unwrapFsSpan(s));
+      storeCurrentStyles();
+      storeCurrentEdits();
+      showEditHint("已恢复这段文字的默认字体和颜色。");
+    }
+
+    function applyTextSpacingToSelection(kind, deltaOrReset) {
+      const info = getSelectionWithinActive();
+      if (!info) return false;
+      const { range, container } = info;
+      const isLetter = kind === "letter";
+      const styleName = isLetter ? "letterSpacing" : "lineHeight";
+      const attrName = isLetter ? "data-ls" : "data-lh";
+      const selector = isLetter ? "span[data-ls]" : "span[data-lh]";
+      const computed = window.getComputedStyle(container);
+      const fontSize = parseFloat(computed.fontSize) || 16;
+      const baseValue = isLetter
+        ? (parseFloat(computed.letterSpacing) || 0)
+        : (parseFloat(computed.lineHeight) || fontSize * 1.45);
+
+      let parentSpan = range.commonAncestorContainer;
+      if (parentSpan.nodeType === Node.TEXT_NODE) parentSpan = parentSpan.parentNode;
+      let referenceValue = baseValue;
+      if (parentSpan && parentSpan.closest) {
+        const closestStyled = parentSpan.closest(selector);
+        if (closestStyled && container.contains(closestStyled)) {
+          const parsed = parseFloat(closestStyled.style[styleName]);
+          if (!Number.isNaN(parsed)) referenceValue = parsed;
+        }
+      }
+
+      const wrapper = document.createElement("span");
+      wrapper.setAttribute(attrName, "1");
+      try {
+        wrapper.appendChild(range.extractContents());
+      } catch (e) {
+        return false;
+      }
+
+      wrapper.querySelectorAll(selector).forEach((inner) => {
+        unwrapFsSpan(inner);
+      });
+
+      if (deltaOrReset === "reset") {
+        wrapper.style[styleName] = "normal";
+      } else {
+        const min = isLetter ? -5 : 12;
+        const max = isLetter ? 30 : 260;
+        const next = Math.max(min, Math.min(max, referenceValue + deltaOrReset));
+        wrapper.style[styleName] = `${next}px`;
+      }
+
+      range.insertNode(wrapper);
+      container.normalize();
+      window.getSelection().removeAllRanges();
+      storeCurrentEdits();
+      return true;
+    }
+
+    function resetSpacingInSelection() {
+      const info = getSelectionWithinActive();
+      if (!info) return false;
+      const { range, container } = info;
+      const wrapper = document.createElement("span");
+      wrapper.setAttribute("data-ls", "1");
+      wrapper.setAttribute("data-lh", "1");
+
+      try {
+        wrapper.appendChild(range.extractContents());
+      } catch (e) {
+        return false;
+      }
+
+      wrapper.querySelectorAll("span[data-ls], span[data-lh]").forEach((inner) => {
+        unwrapFsSpan(inner);
+      });
+
+      wrapper.style.letterSpacing = "normal";
+      wrapper.style.lineHeight = "normal";
+      range.insertNode(wrapper);
+      container.normalize();
+      window.getSelection().removeAllRanges();
+      storeCurrentEdits();
+      return true;
+    }
+
+    function changeLetterSpacing(delta) {
+      if (!editMode) {
+        showEditHint("请先开启编辑，再调整字距。");
+        return;
+      }
+
+      if (applyTextSpacingToSelection("letter", delta)) {
+        showEditHint(`已调整选中文字的左右间距（${delta > 0 ? "+" : ""}${delta}px）。`);
+        return;
+      }
+
+      const target = getActiveTextItem();
+      if (!target) {
+        showEditHint("请先点击要调整字距的文字，或选中部分文字。");
+        return;
+      }
+
+      const current = parseFloat(window.getComputedStyle(target).letterSpacing) || 0;
+      const next = Math.max(-5, Math.min(30, current + delta));
+      target.style.letterSpacing = `${next}px`;
+      storeCurrentSpacing();
+      showEditHint(`已调整整段字距：${next.toFixed(1)}px`);
+    }
+
+    function changeLineSpacing(delta) {
+      if (!editMode) {
+        showEditHint("请先开启编辑，再调整行距。");
+        return;
+      }
+
+      if (applyTextSpacingToSelection("line", delta)) {
+        showEditHint(`已调整选中文字的上下间距（${delta > 0 ? "+" : ""}${delta}px）。`);
+        return;
+      }
+
+      const target = getActiveTextItem();
+      if (!target) {
+        showEditHint("请先点击要调整行距的文字，或选中部分文字。");
+        return;
+      }
+
+      const computed = window.getComputedStyle(target);
+      const fontSize = parseFloat(computed.fontSize) || 16;
+      const current = parseFloat(computed.lineHeight) || fontSize * 1.45;
+      const next = Math.max(12, Math.min(260, current + delta));
+      target.style.lineHeight = `${next}px`;
+      storeCurrentSpacing();
+      showEditHint(`已调整整段行距：${Math.round(next)}px`);
+    }
+
+    function resetSpacing() {
+      if (!editMode) {
+        showEditHint("请先开启编辑，再恢复间距。");
+        return;
+      }
+
+      if (resetSpacingInSelection()) {
+        showEditHint("已恢复选中文字的左右和上下间距。");
+        return;
+      }
+
+      const target = getActiveTextItem();
+      if (!target) {
+        showEditHint("请先点击要恢复间距的文字，或选中部分文字。");
+        return;
+      }
+
+      target.style.letterSpacing = "";
+      target.style.lineHeight = "";
+      target.querySelectorAll("span[data-ls], span[data-lh]").forEach((s) => unwrapFsSpan(s));
+      storeCurrentSpacing();
+      storeCurrentEdits();
+      showEditHint("已恢复这段文字的默认间距。");
+    }
+
+    textItems.forEach((el) => {
+      el.addEventListener("focus", () => {
+        activeTextItem = el;
+      });
+      el.addEventListener("click", () => {
+        activeTextItem = el;
+      });
+      el.addEventListener("mouseup", saveSelectionRange);
+      el.addEventListener("keyup", saveSelectionRange);
+      el.addEventListener("blur", storeCurrentEdits);
+      el.addEventListener("keydown", (event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
+          event.preventDefault();
+          storeCurrentEdits();
+        }
+      });
+    });
+
+    imageItems.forEach((img) => {
+      img.addEventListener("click", (event) => {
+        if (!editMode) return;
+        event.preventDefault();
+        currentImage = img;
+        imagePicker.click();
+      });
+    });
+
+    imagePicker.addEventListener("change", () => {
+      const file = imagePicker.files && imagePicker.files[0];
+      if (!file || !currentImage) return;
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const savedImages = readSaved(imageStoreKey);
+        currentImage.src = reader.result;
+        savedImages[currentImage.dataset.editKey] = reader.result;
+        localStorage.setItem(imageStoreKey, JSON.stringify(savedImages));
+        imagePicker.value = "";
+        showEditHint("图片已替换并保存到当前浏览器。");
+      };
+      reader.readAsDataURL(file);
+    });
+
+    editToggle.addEventListener("click", () => {
+      setEditMode(!editMode);
+    });
+
+    fontSmaller.addEventListener("mousedown", (e) => e.preventDefault());
+    fontLarger.addEventListener("mousedown", (e) => e.preventDefault());
+    fontReset.addEventListener("mousedown", (e) => e.preventDefault());
+    fontFamilyPicker.addEventListener("mousedown", saveSelectionRange);
+    textColorPicker.addEventListener("mousedown", saveSelectionRange);
+    styleReset.addEventListener("mousedown", (e) => e.preventDefault());
+    letterTighter.addEventListener("mousedown", (e) => e.preventDefault());
+    letterLooser.addEventListener("mousedown", (e) => e.preventDefault());
+    lineTighter.addEventListener("mousedown", (e) => e.preventDefault());
+    lineLooser.addEventListener("mousedown", (e) => e.preventDefault());
+    spacingReset.addEventListener("mousedown", (e) => e.preventDefault());
+
+    fontSmaller.addEventListener("click", () => {
+      changeFontSize(-2);
+    });
+
+    fontLarger.addEventListener("click", () => {
+      changeFontSize(2);
+    });
+
+    fontReset.addEventListener("click", resetFontSize);
+
+    fontFamilyPicker.addEventListener("change", () => {
+      changeFontFamily(fontFamilyPicker.value);
+    });
+
+    textColorPicker.addEventListener("change", () => {
+      changeTextColor(textColorPicker.value);
+    });
+
+    styleReset.addEventListener("click", resetTextStyle);
+
+    letterTighter.addEventListener("click", () => {
+      changeLetterSpacing(-1);
+    });
+
+    letterLooser.addEventListener("click", () => {
+      changeLetterSpacing(1);
+    });
+
+    lineTighter.addEventListener("click", () => {
+      changeLineSpacing(-2);
+    });
+
+    lineLooser.addEventListener("click", () => {
+      changeLineSpacing(2);
+    });
+
+    spacingReset.addEventListener("click", resetSpacing);
+
+    saveEdits.addEventListener("click", () => {
+      storeCurrentEdits();
+      storeCurrentFonts();
+      storeCurrentSpacing();
+      storeCurrentStyles();
+    });
+
+    clearEdits.addEventListener("click", () => {
+      if (!window.confirm("确定要清除本地保存的文字和图片修改吗？页面会刷新。")) return;
+      localStorage.removeItem(textStoreKey);
+      localStorage.removeItem(imageStoreKey);
+      localStorage.removeItem(fontStoreKey);
+      localStorage.removeItem(spacingStoreKey);
+      localStorage.removeItem(styleStoreKey);
+      localStorage.removeItem(deletedSectionsKey);
+      window.location.reload();
+    });
+
+    const deleteSection = document.getElementById("deleteSection");
+    const deletedSectionsKey = "portfolio-deleted-sections-v1";
+    let deleteMode = false;
+    let deletedSections = [];
+
+    function loadDeletedSections() {
+      try {
+        deletedSections = JSON.parse(localStorage.getItem(deletedSectionsKey) || "[]");
+      } catch (e) {
+        deletedSections = [];
+      }
+    }
+
+    function saveDeletedSections() {
+      localStorage.setItem(deletedSectionsKey, JSON.stringify(deletedSections));
+    }
+
+    function toggleDeleteMode() {
+      deleteMode = !deleteMode;
+      deleteSection.style.background = deleteMode ? "#c53030" : "#ffeaea";
+      deleteSection.style.color = deleteMode ? "#fff" : "#c53030";
+      deleteSection.textContent = deleteMode ? "✅ 点击板块删除" : "🗑 删除板块";
+
+      if (deleteMode) {
+        showEditHint("已开启删除模式：点击任意板块即可删除（首页header不能删除）。再次点击按钮可关闭删除模式。");
+        document.querySelectorAll("section").forEach(section => {
+          if (section.id !== "home") {
+            section.style.outline = "3px dashed #c53030";
+            section.style.outlineOffset = "6px";
+            section.style.cursor = "pointer";
+          }
+        });
+      } else {
+        document.querySelectorAll("section").forEach(section => {
+          section.style.outline = "";
+          section.style.outlineOffset = "";
+          section.style.cursor = "";
+        });
+      }
+    }
+
+    function handleSectionClick(event) {
+      if (!deleteMode) return;
+      const section = event.target.closest("section");
+      if (!section || section.id === "home") return;
+
+      event.preventDefault();
+      const sectionId = section.id;
+      const sectionHtml = section.outerHTML;
+      const sectionIndex = Array.from(document.querySelectorAll("section")).indexOf(section);
+
+      if (confirm(`确定要删除「${section.querySelector("h2.section-title")?.textContent || section.id}」板块吗？`)) {
+        deletedSections.push({
+          id: sectionId,
+          html: sectionHtml,
+          index: sectionIndex
+        });
+        saveDeletedSections();
+        section.remove();
+        showEditHint(`已删除「${sectionId}」板块。如需恢复，请点击"撤销删除"按钮。`);
+        deleteSection.textContent = "↩️ 撤销删除";
+      }
+    }
+
+    function undoDelete() {
+      if (deletedSections.length === 0) {
+        showEditHint("没有可恢复的板块。");
+        return;
+      }
+
+      const lastDeleted = deletedSections.pop();
+      saveDeletedSections();
+
+      const main = document.querySelector("main.page");
+      const sections = main.querySelectorAll("section");
+      const insertBeforeIndex = Math.min(lastDeleted.index, sections.length);
+      const insertBeforeEl = sections[insertBeforeIndex] || main.querySelector("footer");
+
+      if (insertBeforeEl) {
+        insertBeforeEl.insertAdjacentHTML("beforebegin", lastDeleted.html);
+      } else {
+        main.insertAdjacentHTML("beforeend", lastDeleted.html);
+      }
+
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }
+
+    deleteSection.addEventListener("click", () => {
+      if (!editMode) {
+        showEditHint("请先开启编辑模式。");
+        return;
+      }
+
+      if (deleteMode && deletedSections.length > 0 && deleteSection.textContent.includes("撤销")) {
+        undoDelete();
+        deleteSection.textContent = "🗑 删除板块";
+        deleteSection.style.background = "#ffeaea";
+        deleteSection.style.color = "#c53030";
+        deleteMode = false;
+        document.querySelectorAll("section").forEach(section => {
+          section.style.outline = "";
+          section.style.outlineOffset = "";
+          section.style.cursor = "";
+        });
+      } else {
+        toggleDeleteMode();
+      }
+    });
+
+    document.addEventListener("click", handleSectionClick);
+
+    loadDeletedSections();
+
+    applySavedEdits();
+  </script>
+</body>
+</html>

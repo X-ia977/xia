@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>图片作品展示</title>
+  <style>
+    :root {
+      --bg: #f4f8fa;
+      --text: #101533;
+      --muted: #687385;
+      --line: rgba(35, 70, 95, 0.14);
+      --card: rgba(255, 255, 255, 0.72);
+      --cyan: #48c7dd;
+      --green: #c8f542;
+      --shadow: 0 24px 70px rgba(38, 66, 90, 0.13);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, "HarmonyOS Sans SC", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 16% 12%, rgba(200, 245, 66, 0.56), transparent 28%),
+        radial-gradient(circle at 82% 8%, rgba(72, 199, 221, 0.28), transparent 30%),
+        linear-gradient(135deg, #f9fbfb 0%, #eef6f8 48%, #f7fbfa 100%);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 22px 0 70px;
+    }
+
+    .glass {
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    .nav {
+      position: sticky;
+      top: 18px;
+      z-index: 20;
+      border-radius: 999px;
+      padding: 13px 18px 13px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-weight: 950;
+      letter-spacing: -0.04em;
+    }
+
+    .back {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(200, 245, 66, 1), rgba(72, 199, 221, 0.9));
+      font-weight: 900;
+    }
+
+    .hero {
+      padding: 86px 0 46px;
+    }
+
+    .kicker {
+      font-size: 13px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(52px, 9vw, 118px);
+      line-height: 0.9;
+      letter-spacing: -0.085em;
+      max-width: 900px;
+    }
+
+    .desc {
+      max-width: 720px;
+      margin-top: 24px;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 16px;
+    }
+
+    .tools {
+      margin: 28px 0 26px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      padding: 11px 15px;
+      border-radius: 999px;
+      background: #101533;
+      color: #fff;
+      font-family: inherit;
+      font-weight: 900;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .work-item {
+      border-radius: 30px;
+      overflow: hidden;
+      min-height: 320px;
+      position: relative;
+      transition: 0.28s ease;
+    }
+
+    .replace-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 5;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(16, 21, 51, 0.78);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      border: 0;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .work-item:hover .replace-btn,
+    .replace-btn:focus-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .replace-btn:hover {
+      background: linear-gradient(135deg, rgba(200, 245, 66, 1), rgba(72, 199, 221, 0.92));
+      color: #101533;
+    }
+
+    .work-item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 80px rgba(38, 66, 90, 0.18);
+    }
+
+    .cover {
+      height: 230px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(72, 199, 221, 0.16), rgba(200, 245, 66, 0.22)),
+        repeating-linear-gradient(45deg, rgba(16, 21, 51, 0.04) 0 10px, transparent 10px 20px);
+      color: rgba(16, 21, 51, 0.42);
+      font-weight: 950;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+
+    .cover video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #101533;
+    }
+
+    .cover:hover img {
+      transform: scale(1.12);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(16, 21, 51, 0.86);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 24px;
+      overflow: hidden;
+    }
+
+    .lightbox.show {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 18px;
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.45);
+      transform: scale(1);
+      transform-origin: center center;
+      transition: transform 0.25s ease;
+      pointer-events: auto;
+      user-select: none;
+      cursor: grab;
+    }
+
+    .lightbox img.dragging {
+      cursor: grabbing;
+      transition: none;
+    }
+
+    .lightbox-controls {
+      position: absolute;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      background: rgba(16, 21, 51, 0.6);
+      padding: 8px 12px;
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .lightbox-controls button {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      border: 0;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .lightbox-controls button:hover {
+      background: linear-gradient(135deg, rgba(200, 245, 66, 1), rgba(72, 199, 221, 0.92));
+      color: #101533;
+    }
+
+    .lightbox-zoom-text {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 800;
+      align-self: center;
+      min-width: 52px;
+      text-align: center;
+      letter-spacing: 0.04em;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 22px;
+      right: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 22px;
+      font-weight: 900;
+      border: 0;
+    }
+
+    .info {
+      padding: 22px 24px 26px;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
+    .info h3 {
+      font-size: 24px;
+      letter-spacing: -0.05em;
+      margin-bottom: 10px;
+    }
+
+    .info p {
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .hint {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 920px) {
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 28px, 1180px);
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="nav glass">
+      <a class="logo" href="index.html">XIA GUO JUAN / PORTFOLIO</a>
+      <a class="back" href="index.html#categories">返回首页</a>
+    </nav>
+
+    <header class="hero">
+      <div class="kicker" id="categoryName">Works Gallery</div>
+      <h1>图片作品展示</h1>
+      <p class="desc">
+        这里用于集中展示你的图片作品。点击任意图片区域可以上传并替换作品图，标题和说明也可以直接点击修改，修改会保存到当前浏览器。
+      </p>
+      <div class="tools">
+        <button type="button" id="clearGallery">清除本页本地修改</button>
+      </div>
+      <p class="hint">提示：如果需要发布到 Vercel，请把最终图片文件也放进网站文件夹；当前上传替换会先保存在本机浏览器里。</p>
+    </header>
+
+    <section class="gallery-grid" id="galleryGrid"></section>
+  </main>
+
+  <input id="imagePicker" type="file" accept="image/*" hidden />
+
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" type="button" id="lightboxClose" aria-label="关闭预览">×</button>
+    <img id="lightboxImage" src="" alt="作品大图预览" />
+    <div class="lightbox-controls" aria-label="缩放控制">
+      <button type="button" id="lightboxZoomOut" aria-label="缩小">−</button>
+      <span class="lightbox-zoom-text" id="lightboxZoomText">100%</span>
+      <button type="button" id="lightboxZoomIn" aria-label="放大">+</button>
+      <button type="button" id="lightboxZoomReset" aria-label="还原" title="还原">⟳</button>
+    </div>
+  </div>
+
+  <script src="assets/exported/default-media.js"></script>
+  <script>
+    const categoryMap = {
+      uiux: "UI/UX Design",
+      web: "Web Design",
+      brand: "Brand Design",
+      poster: "Poster Design",
+      data: "Data Visualization",
+      creative: "视频作品"
+    };
+
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get("category") || "all";
+    const categoryName = categoryMap[category] || "Works Gallery";
+    const isVideoCategory = category === "creative";
+    const textKey = `gallery-text-${category}`;
+    const imageKey = `gallery-images-${category}`;
+    const videoKey = `gallery-videos-${category}`;
+    const mediaKey = isVideoCategory ? videoKey : imageKey;
+    const picker = document.getElementById("imagePicker");
+    let activeCover = null;
+
+    document.getElementById("categoryName").textContent = categoryName;
+    document.querySelector(".hero h1").textContent = isVideoCategory ? "视频作品展示" : "图片作品展示";
+    document.querySelector(".desc").textContent = isVideoCategory
+      ? "这里用于集中展示你的视频作品。点击空白视频区域可以上传视频，已有视频可点击右上角按钮替换，标题和说明也可以直接点击修改。"
+      : "这里用于集中展示你的图片作品。点击任意图片区域可以上传并替换作品图，标题和说明也可以直接点击修改，修改会保存到当前浏览器。";
+    document.querySelector(".hint").textContent = isVideoCategory
+      ? "提示：视频文件较大时，浏览器本地保存可能失败；正式发布到 Vercel 时，请把最终视频文件也放进网站文件夹。"
+      : "提示：如果需要发布到 Vercel，请把最终图片文件也放进网站文件夹；当前上传替换会先保存在本机浏览器里。";
+    picker.accept = isVideoCategory ? "video/*" : "image/*";
+
+    const TOTAL_ITEMS = 30;
+    const galleryGrid = document.getElementById("galleryGrid");
+
+    function buildGallery() {
+      const fragment = document.createDocumentFragment();
+      for (let i = 0; i < TOTAL_ITEMS; i++) {
+        const num = String(i + 1).padStart(2, "0");
+        const article = document.createElement("article");
+        article.className = "work-item glass";
+        article.innerHTML = `
+          <button type="button" class="replace-btn" data-replace-slot="${i}">${isVideoCategory ? "替换视频" : "替换图片"}</button>
+          <div class="cover" data-image-slot="${i}">${isVideoCategory ? "点击上传视频" : "点击上传作品图"}</div>
+          <div class="info">
+            <h3 contenteditable="true">${isVideoCategory ? "视频" : "作品"} ${num}</h3>
+            <p contenteditable="true">填写${isVideoCategory ? "视频名称、剪辑内容或项目亮点" : "作品名称、项目背景或设计亮点"}。</p>
+          </div>
+        `;
+        fragment.appendChild(article);
+      }
+      galleryGrid.appendChild(fragment);
+    }
+
+    buildGallery();
+
+    function readSaved(key) {
+      try {
+        return JSON.parse(localStorage.getItem(key) || "{}");
+      } catch (error) {
+        return {};
+      }
+    }
+
+    const DB_NAME = "GalleryMediaDB";
+    const DB_VERSION = 1;
+    const STORE_NAME = "mediaFiles";
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = window.indexedDB.open(DB_NAME, DB_VERSION);
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => resolve(request.result);
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: "id" });
+          }
+        };
+      });
+    }
+
+    function saveToDB(id, dataUrl) {
+      return openDB().then((db) => {
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, "readwrite");
+          const store = tx.objectStore(STORE_NAME);
+          store.put({ id: id, data: dataUrl });
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      });
+    }
+
+    function loadFromDB(id) {
+      return openDB().then((db) => {
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, "readonly");
+          const store = tx.objectStore(STORE_NAME);
+          const request = store.get(id);
+          request.onsuccess = () => resolve(request.result ? request.result.data : null);
+          request.onerror = () => reject(request.error);
+        });
+      });
+    }
+
+    function deleteFromDB(id) {
+      return openDB().then((db) => {
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, "readwrite");
+          const store = tx.objectStore(STORE_NAME);
+          store.delete(id);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      });
+    }
+
+    function deleteCategoryFromDB(categoryKey) {
+      return openDB().then((db) => {
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, "readwrite");
+          const store = tx.objectStore(STORE_NAME);
+          const request = store.openCursor();
+          request.onsuccess = (event) => {
+            const cursor = event.target.result;
+            if (cursor) {
+              if (cursor.value.id.startsWith(categoryKey)) {
+                cursor.delete();
+              }
+              cursor.continue();
+            } else {
+              resolve();
+            }
+          };
+          request.onerror = () => reject(request.error);
+        });
+      });
+    }
+
+    function shouldUseDB(file, isVideo) {
+      const LARGE_IMAGE_SIZE = 1 * 1024 * 1024;
+      return isVideo || file.size > LARGE_IMAGE_SIZE;
+    }
+
+    function saveText() {
+      const textData = {};
+      document.querySelectorAll(".info h3, .info p").forEach((el, index) => {
+        textData[index] = el.innerHTML;
+      });
+      localStorage.setItem(textKey, JSON.stringify(textData));
+    }
+
+    function applySaved() {
+      const textData = readSaved(textKey);
+      const defaultMedia = (window.DEFAULT_MEDIA && window.DEFAULT_MEDIA[category]) || {};
+      const mediaData = { ...defaultMedia, ...readSaved(mediaKey) };
+
+      document.querySelectorAll(".info h3, .info p").forEach((el, index) => {
+        if (textData[index]) el.innerHTML = textData[index];
+        el.addEventListener("blur", saveText);
+      });
+
+      document.querySelectorAll(".cover").forEach(async (cover) => {
+        const slot = cover.dataset.imageSlot;
+        if (mediaData[slot]) {
+          let mediaSrc = mediaData[slot];
+          if (typeof mediaSrc === "string" && mediaSrc.startsWith("__INDEXEDDB__")) {
+            try {
+              const dbKey = mediaSrc.replace("__INDEXEDDB__", "");
+              const dbData = await loadFromDB(dbKey);
+              if (dbData) {
+                mediaSrc = dbData;
+              } else {
+                return;
+              }
+            } catch (e) {
+              return;
+            }
+          }
+          cover.innerHTML = isVideoCategory
+            ? `<video src="${mediaSrc}" controls preload="metadata"></video>`
+            : `<img src="${mediaSrc}" alt="作品图片" />`;
+        }
+
+        cover.addEventListener("click", () => {
+          if (isVideoCategory) {
+            const video = cover.querySelector("video");
+            if (video) return;
+            activeCover = cover;
+            picker.click();
+            return;
+          }
+          const img = cover.querySelector("img");
+          if (img && img.src) {
+            openLightbox(img.src);
+            return;
+          }
+          activeCover = cover;
+          picker.click();
+        });
+      });
+
+      document.querySelectorAll(".replace-btn").forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          event.stopPropagation();
+          const slot = btn.dataset.replaceSlot;
+          const cover = document.querySelector(`.cover[data-image-slot="${slot}"]`);
+          if (!cover) return;
+          activeCover = cover;
+          picker.click();
+        });
+      });
+    }
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightboxImage");
+    const lightboxClose = document.getElementById("lightboxClose");
+    const lightboxZoomIn = document.getElementById("lightboxZoomIn");
+    const lightboxZoomOut = document.getElementById("lightboxZoomOut");
+    const lightboxZoomReset = document.getElementById("lightboxZoomReset");
+    const lightboxZoomText = document.getElementById("lightboxZoomText");
+
+    let lightboxScale = 1;
+    let lightboxTx = 0;
+    let lightboxTy = 0;
+    const ZOOM_MIN = 0.4;
+    const ZOOM_MAX = 5;
+
+    function applyLightboxTransform() {
+      lightboxImage.style.transform = `translate(${lightboxTx}px, ${lightboxTy}px) scale(${lightboxScale})`;
+      lightboxZoomText.textContent = `${Math.round(lightboxScale * 100)}%`;
+    }
+
+    function setLightboxScale(next) {
+      lightboxScale = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, next));
+      applyLightboxTransform();
+    }
+
+    function resetLightboxView() {
+      lightboxScale = 1;
+      lightboxTx = 0;
+      lightboxTy = 0;
+      applyLightboxTransform();
+    }
+
+    function openLightbox(src) {
+      lightboxImage.src = src;
+      resetLightboxView();
+      lightbox.classList.add("show");
+      lightbox.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove("show");
+      lightbox.setAttribute("aria-hidden", "true");
+      lightboxImage.src = "";
+      resetLightboxView();
+      document.body.style.overflow = "";
+    }
+
+    lightboxClose.addEventListener("click", (event) => {
+      event.stopPropagation();
+      closeLightbox();
+    });
+
+    lightboxZoomIn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      setLightboxScale(lightboxScale + 0.2);
+    });
+    lightboxZoomOut.addEventListener("click", (event) => {
+      event.stopPropagation();
+      setLightboxScale(lightboxScale - 0.2);
+    });
+    lightboxZoomReset.addEventListener("click", (event) => {
+      event.stopPropagation();
+      resetLightboxView();
+    });
+
+    lightbox.addEventListener("wheel", (event) => {
+      if (!lightbox.classList.contains("show")) return;
+      event.preventDefault();
+      const delta = event.deltaY > 0 ? -0.15 : 0.15;
+      setLightboxScale(lightboxScale + delta);
+    }, { passive: false });
+
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let dragOriginTx = 0;
+    let dragOriginTy = 0;
+
+    lightboxImage.addEventListener("mousedown", (event) => {
+      event.preventDefault();
+      isDragging = true;
+      dragStartX = event.clientX;
+      dragStartY = event.clientY;
+      dragOriginTx = lightboxTx;
+      dragOriginTy = lightboxTy;
+      lightboxImage.classList.add("dragging");
+    });
+
+    window.addEventListener("mousemove", (event) => {
+      if (!isDragging) return;
+      lightboxTx = dragOriginTx + (event.clientX - dragStartX);
+      lightboxTy = dragOriginTy + (event.clientY - dragStartY);
+      applyLightboxTransform();
+    });
+
+    window.addEventListener("mouseup", () => {
+      if (!isDragging) return;
+      isDragging = false;
+      lightboxImage.classList.remove("dragging");
+    });
+
+    picker.addEventListener("change", () => {
+      const file = picker.files && picker.files[0];
+      if (!file || !activeCover) return;
+
+      const MIN_FILE_SIZE = 1024;
+      const MAX_IMAGE_SIZE = 20 * 1024 * 1024;
+      const MAX_VIDEO_SIZE = 40 * 1024 * 1024;
+
+      if (!isVideoCategory) {
+        if (file.size < MIN_FILE_SIZE) {
+          window.alert("图片大小不能低于 1KB，请选择更大的文件。");
+          picker.value = "";
+          return;
+        }
+        if (file.size > MAX_IMAGE_SIZE) {
+          window.alert("图片大小不能超过 20MB，请压缩后再上传。");
+          picker.value = "";
+          return;
+        }
+      } else {
+        if (file.size < MIN_FILE_SIZE) {
+          window.alert("视频大小不能低于 1KB，请选择更大的文件。");
+          picker.value = "";
+          return;
+        }
+        if (file.size > MAX_VIDEO_SIZE) {
+          window.alert("视频大小不能超过 40MB，请压缩后再上传。");
+          picker.value = "";
+          return;
+        }
+      }
+
+      const reader = new FileReader();
+      reader.onload = async () => {
+        const slotId = activeCover.dataset.imageSlot;
+        const dbKey = `${mediaKey}-${slotId}`;
+        const useDB = shouldUseDB(file, isVideoCategory);
+
+        try {
+          if (useDB) {
+            await saveToDB(dbKey, reader.result);
+            const mediaData = readSaved(mediaKey);
+            mediaData[slotId] = "__INDEXEDDB__" + dbKey;
+            localStorage.setItem(mediaKey, JSON.stringify(mediaData));
+          } else {
+            const mediaData = readSaved(mediaKey);
+            mediaData[slotId] = reader.result;
+            localStorage.setItem(mediaKey, JSON.stringify(mediaData));
+          }
+
+          activeCover.innerHTML = isVideoCategory
+            ? `<video src="${reader.result}" controls preload="metadata"></video>`
+            : `<img src="${reader.result}" alt="作品图片" />`;
+          picker.value = "";
+        } catch (error) {
+          picker.value = "";
+          window.alert(isVideoCategory
+            ? "文件保存失败，请重试或选择更小的文件。"
+            : "文件保存失败，请重试或选择更小的文件。");
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById("clearGallery").addEventListener("click", async () => {
+      if (!window.confirm("确定清除这个分类页面的本地图片/视频和文字修改吗？")) return;
+      localStorage.removeItem(textKey);
+      localStorage.removeItem(imageKey);
+      localStorage.removeItem(videoKey);
+      try {
+        await deleteCategoryFromDB(imageKey);
+        await deleteCategoryFromDB(videoKey);
+      } catch (e) {
+      }
+      window.location.reload();
+    });
+
+    applySaved();
+  </script>
+</body>
+</html>
